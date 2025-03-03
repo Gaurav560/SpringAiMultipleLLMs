@@ -6,13 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/openai")
+@RequestMapping("/api/anthropic")
 @CrossOrigin(origins = "*")
-public class OpenAIController {
+public class AnthropicController {
 
     private final ChatClient chatClient;
 
-    public OpenAIController(@Qualifier("openAIChatClient") ChatClient chatClient) {
+    public AnthropicController(@Qualifier("anthropicChatClient") ChatClient chatClient) {
         this.chatClient = chatClient;
     }
 
@@ -31,5 +31,4 @@ public class OpenAIController {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
-
 }

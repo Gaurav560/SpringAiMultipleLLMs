@@ -6,13 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/openai")
+@RequestMapping("/api/ollama")
 @CrossOrigin(origins = "*")
-public class OpenAIController {
-
+public class OllamaController {
     private final ChatClient chatClient;
 
-    public OpenAIController(@Qualifier("openAIChatClient") ChatClient chatClient) {
+    public OllamaController(@Qualifier("ollamaChatClient") ChatClient chatClient) {
         this.chatClient = chatClient;
     }
 
@@ -22,10 +21,7 @@ public class OpenAIController {
             String response = chatClient
                     .prompt(message)
                     .call()
-                    .chatResponse()
-                    .getResult()
-                    .getOutput()
-                    .getContent();
+                    .content();
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
