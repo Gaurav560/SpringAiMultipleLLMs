@@ -19,13 +19,12 @@ public class AnthropicController {
     @GetMapping("/{message}")
     public ResponseEntity<String> promptWithPathVariable(@PathVariable String message) {
         try {
-            String response = chatClient
-                    .prompt(message)
-                    .call()
-                    .chatResponse()
-                    .getResult()
-                    .getOutput()
-                    .getContent();
+            var chatResponse = chatClient.prompt(message).call().chatResponse();
+            if (chatResponse == null) {
+                return ResponseEntity.badRequest().body("Error: Chat response was null");
+            }
+
+            String response = chatResponse.getResult().getOutput().getContent();
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
